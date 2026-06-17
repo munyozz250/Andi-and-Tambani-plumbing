@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andi &amp; Tambani Plumbing — Book a Job</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#14233D;
+    --navy-light:#1F3357;
+    --marigold:#E7A93D;
+    --copper:#C2592F;
+    --cream:#F4ECD8;
+    --steel:#8B97A3;
+    --ink:#211D1A;
+    --brass:#B68D40;
+    --paper:#FFFDF8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    margin:0 0 .4em 0;
+    line-height:1.1;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+    outline:3px solid var(--marigold);
+    outline-offset:2px;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    background:var(--navy);
+    color:var(--cream);
+    position:sticky; top:0; z-index:50;
+    border-bottom:3px solid var(--marigold);
+  }
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:12px 24px;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .badge{
+    width:46px; height:46px; border-radius:50%;
+    background:var(--marigold);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .badge svg{width:28px; height:28px;}
+  .brand-text{font-family:'Space Grotesk'; font-weight:700; font-size:1.05rem; letter-spacing:.02em;}
+  .brand-text span{display:block; font-family:'IBM Plex Mono'; font-weight:400; font-size:.68rem; color:var(--marigold); letter-spacing:.08em; margin-top:2px;}
+  .nav-call{
+    background:var(--marigold); color:var(--navy);
+    font-weight:600; font-size:.85rem;
+    padding:9px 16px; border-radius:6px;
+    text-decoration:none; white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--navy);
+    color:var(--cream);
+    padding:64px 0 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:280px; height:280px; border-radius:50%;
+    border:2px dashed rgba(231,169,61,.25);
+  }
+  .hero-inner{position:relative; z-index:2; animation:rise .6s ease-out both;}
+  .eyebrow{
+    font-family:'IBM Plex Mono'; font-size:.78rem; letter-spacing:.12em;
+    color:var(--marigold); text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero h1{font-size:clamp(2rem,5.5vw,3.4rem); max-width:760px;}
+  .hero h1 em{color:var(--marigold); font-style:normal;}
+  .hero p{max-width:560px; font-size:1.05rem; color:#D7DEEA; margin-top:14px;}
+  .hero-ctas{display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 22px; border-radius:8px;
+    font-weight:600; font-size:.95rem; text-decoration:none;
+    transition:transform .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--marigold); color:var(--navy);}
+  .btn-outline{border:1.5px solid var(--cream); color:var(--cream); background:transparent;}
+  @keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){.hero-inner{animation:none;} .btn:hover{transform:none;}}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{background:var(--paper); padding:50px 0;}
+  .how-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:28px;}
+  .how-step{border-top:3px solid var(--copper); padding-top:14px;}
+  .how-step .num{font-family:'IBM Plex Mono'; color:var(--copper); font-size:.85rem;}
+  .how-step h3{font-size:1.1rem; margin-top:8px;}
+  .how-step p{color:#4a443f; font-size:.92rem;}
+
+  /* ---------- SERVICES ---------- */
+  .services{background:var(--cream); padding:56px 0;}
+  .services h2{font-size:1.7rem;}
+  .services > .wrap > p{max-width:520px; color:#5a5247;}
+  .tag-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:28px;}
+  .tag{
+    background:var(--paper); border:1px solid #e3d8bd;
+    border-radius:8px; padding:16px 14px;
+    font-size:.9rem; font-weight:500;
+    position:relative;
+  }
+  .tag::before{
+    content:""; position:absolute; left:14px; top:-6px;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--paper); border:1px solid #e3d8bd;
+  }
+  .tag .code{display:block; font-family:'IBM Plex Mono'; font-size:.72rem; color:var(--copper); margin-bottom:4px;}
+
+  /* ---------- REQUEST TICKET ---------- */
+  .request-section{background:var(--navy-light); padding:60px 0; color:var(--cream);}
+  .request-section > .wrap > h2{font-size:1.7rem;}
+  .request-section > .wrap > p{color:#cfd6e3; max-width:540px;}
+  .ticket{
+    margin-top:32px;
+    background:var(--paper); color:var(--ink);
+    border-radius:10px;
+    display:grid; grid-template-columns:1fr 280px;
+    box-shadow:0 18px 40px rgba(0,0,0,.25);
+    overflow:hidden;
+  }
+  .ticket-main{padding:32px;}
+  .ticket-stub{
+    background:var(--navy); color:var(--cream);
+    padding:32px 24px;
+    position:relative;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .ticket-stub::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0;
+    border-left:2px dashed rgba(244,236,216,.35);
+  }
+  .ticket-stub::after{
+    content:""; position:absolute; left:-9px; top:50%; transform:translateY(-50%);
+    width:18px; height:18px; border-radius:50%; background:var(--navy-light);
+  }
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:.82rem; font-weight:600; margin-bottom:6px; color:#4a443f;}
+  .field input, .field select, .field textarea{
+    width:100%; padding:11px 12px; border:1.5px solid #d8cfb6;
+    border-radius:6px; font-family:inherit; font-size:.92rem; background:#fff;
+  }
+  .field textarea{resize:vertical; min-height:80px;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .loc-btn{
+    background:var(--cream); border:1.5px solid var(--copper); color:var(--copper);
+    font-weight:600; font-size:.85rem; padding:10px 14px; border-radius:6px;
+    width:100%; margin-top:6px;
+  }
+  .loc-status{font-size:.82rem; margin-top:8px; color:#5a5247;}
+  .submit-btn{
+    background:var(--copper); color:#fff; font-weight:600; font-size:1rem;
+    padding:14px; border-radius:7px; width:100%; margin-top:6px;
+  }
+  .error-text{color:#b3261e; font-size:.82rem; margin-top:6px; display:none;}
+  .stub-code{font-family:'IBM Plex Mono'; font-size:.78rem; color:var(--marigold); letter-spacing:.06em;}
+  .stub-points{margin-top:18px;}
+  .stub-points .num{font-family:'Space Grotesk'; font-size:2.1rem; font-weight:700; color:var(--marigold);}
+  .stub-points .lbl{font-size:.78rem; color:#cfd6e3;}
+  .stamp{
+    display:inline-block; border:2px solid var(--marigold); color:var(--marigold);
+    font-family:'IBM Plex Mono'; font-weight:600; font-size:.72rem; letter-spacing:.1em;
+    padding:5px 10px; border-radius:4px; transform:rotate(-6deg); margin-top:14px;
+  }
+  .success-view{display:none; padding:32px;}
+  .success-view h3{font-size:1.4rem;}
+  .success-view .id{font-family:'IBM Plex Mono'; color:var(--copper); font-size:.95rem;}
+  .reset-btn{
+    margin-top:18px; background:transparent; border:1.5px solid var(--copper);
+    color:var(--copper); font-weight:600; padding:10px 16px; border-radius:6px;
+  }
+  @media (max-width:760px){
+    .ticket{grid-template-columns:1fr;}
+    .ticket-stub::before{border-left:none; border-top:2px dashed rgba(33,29,26,.2); top:0; left:24px; right:24px; bottom:auto;}
+    .ticket-stub::after{left:50%; top:-9px; transform:translateX(-50%);}
+    .how-grid, .tag-grid{grid-template-columns:1fr;}
+    .row2{grid-template-columns:1fr;}
+  }
+
+  /* ---------- REWARDS ---------- */
+  .rewards{background:var(--cream); padding:60px 0;}
+  .rewards-grid{display:grid; grid-template-columns:280px 1fr; gap:36px; margin-top:30px; align-items:center;}
+  .gauge-wrap{text-align:center;}
+  .tier-list{display:flex; flex-direction:column; gap:14px;}
+  .tier-row{display:flex; align-items:center; gap:14px; background:var(--paper); border:1px solid #e3d8bd; border-radius:8px; padding:14px 16px;}
+  .tier-dot{width:16px; height:16px; border-radius:50%; flex-shrink:0;}
+  .tier-row h4{margin:0; font-size:.98rem; font-family:'Space Grotesk';}
+  .tier-row p{margin:2px 0 0; font-size:.82rem; color:#5a5247;}
+  @media (max-width:760px){.rewards-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy); color:#cfd6e3; padding:40px 0 26px; font-size:.88rem;}
+  footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px;}
+  footer h4{color:var(--cream); font-family:'Space Grotesk'; font-size:.95rem; margin-bottom:8px;}
+  footer .num{font-family:'IBM Plex Mono'; font-size:.95rem; color:var(--marigold);}
+  .owner-link{background:none; color:#8fa0c2; text-decoration:underline; font-size:.82rem; margin-top:14px; padding:0;}
+
+  /* ---------- DASHBOARD OVERLAY ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(20,35,61,.92);
+    z-index:100; display:none; overflow-y:auto; padding:24px;
+  }
+  .dash-card{
+    max-width:900px; margin:0 auto; background:var(--paper); border-radius:10px;
+    padding:28px; color:var(--ink);
+  }
+  .dash-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;}
+  .dash-close{background:var(--copper); color:#fff; padding:8px 14px; border-radius:6px; font-weight:600; font-size:.85rem;}
+  .job-row{
+    border:1px solid #e3d8bd; border-radius:8px; padding:14px; margin-top:12px;
+    display:grid; grid-template-columns:1fr auto; gap:10px; align-items:start;
+  }
+  .job-row .meta{font-size:.82rem; color:#5a5247; margin-top:4px;}
+  .job-row select{padding:7px 8px; border-radius:6px; border:1.5px solid #d8cfb6; font-family:inherit;}
+  .status-pill{font-family:'IBM Plex Mono'; font-size:.72rem; padding:3px 8px; border-radius:4px; display:inline-block; margin-top:6px;}
+  .pill-new{background:#fde7d2; color:var(--copper);}
+  .pill-progress{background:#e3e9f0; color:var(--navy);}
+  .pill-done{background:#dff0df; color:#2d6a2d;}
+  .empty-state{color:#5a5247; font-size:.9rem; padding:20px 0;}
+  .dash-refresh{background:var(--navy); color:#fff; padding:8px 14px; border-radius:6px; font-size:.85rem; font-weight:600;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <div class="badge">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="3" width="4" height="26" rx="2" fill="#14233D"/>
+          <circle cx="16" cy="7" r="5" stroke="#14233D" stroke-width="3" fill="none"/>
+          <circle cx="16" cy="25" r="5" stroke="#14233D" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <div class="brand-text">ANDI &amp; TAMBANI<span>PLUMBING · EST. SERVICE</span></div>
+    </div>
+    <a class="nav-call" href="tel:+27769969213">Call 076 996 9213</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Residential &amp; commercial plumbing</div>
+    <h1>Pipe trouble? <em>Send the work order</em>, we're on our way.</h1>
+    <p>Book online, tell us exactly what's wrong and where to find you. Andi &amp; Tambani get the job on WhatsApp the moment you hit send — no waiting on hold.</p>
+    <div class="hero-ctas">
+      <a href="#request" class="btn btn-primary">Request a callout</a>
+      <a href="tel:+27769969213" class="btn btn-outline">Call now</a>
+    </div>
+  </div>
+</header>
+
+<section class="how">
+  <div class="wrap">
+    <h2 style="font-size:1.6rem;">How a request reaches us</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="num">01</div>
+        <h3>Fill in the work order</h3>
+        <p>Pick the job, describe the problem, and share the address.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">02</div>
+        <h3>We get pinged instantly</h3>
+        <p>Your request opens a WhatsApp message straight to our phone — no app for us to check.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">03</div>
+        <h3>We arrive, job's logged</h3>
+        <p>Your visit is recorded and points land in your account automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="wrap">
+    <h2>Services offered</h2>
+    <p>From a dripping tap to a full sewage backup — here's the full list we quote and fix.</p>
+    <div class="tag-grid" id="tagGrid"></div>
+  </div>
+</section>
+
+<section class="request-section" id="request">
+  <div class="wrap">
+    <h2>Book a callout</h2>
+    <p>This goes straight to Andi &amp; Tambani's phone. The more detail you give us, the faster we find your door.</p>
+
+    <div class="ticket">
+      <div class="ticket-main" id="formView">
+        <form id="jobForm">
+          <div class="row2">
+            <div class="field">
+              <label for="custName">Your name</label>
+              <input type="text" id="custName" required>
+            </div>
+            <div class="field">
+              <label for="custPhone">Phone number</label>
+              <input type="tel" id="custPhone" placeholder="072 345 6789" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="workType">Type of work</label>
+            <select id="workType" required></select>
+          </div>
+
+          <div class="field">
+            <label for="jobDesc">Describe the problem</label>
+            <textarea id="jobDesc" placeholder="e.g. Kitchen pipe burst under the sink, water on the floor" required></textarea>
+          </div>
+
+          <div class="field">
+            <label for="address">House address</label>
+            <input type="text" id="address" placeholder="Street, suburb, town" required>
+            <button type="button" class="loc-btn" id="shareLocBtn">📍 Share my exact location (gets you bonus points)</button>
+            <div class="loc-status" id="locStatus"></div>
+          </div>
+
+          <button type="submit" class="submit-btn">Send work order</button>
+          <div class="error-text" id="formError">Please fill in your name, phone, work type, problem and address.</div>
+        </form>
+      </div>
+
+      <div class="success-view" id="successView">
+        <span class="stamp">SENT ✓</span>
+        <h3>On its way to Andi &amp; Tambani</h3>
+        <p class="id">Request <span id="reqIdOut"></span></p>
+        <p style="font-size:.9rem; color:#4a443f;">We've opened WhatsApp with your details. If it didn't open, <a id="waFallback" href="#" style="color:var(--copper); font-weight:600;">tap here to send it</a>.</p>
+        <button class="reset-btn" id="resetBtn">Submit another request</button>
+      </div>
+
+      <div class="ticket-stub" id="ticketStub">
+        <div>
+          <div class="stub-code mono" id="stubCode">JOB CODE: —</div>
+          <h3 style="margin-top:14px; font-size:1.1rem;">Work order stub</h3>
+          <p style="font-size:.85rem; color:#cfd6e3;">Keep this — it's your job reference and shows your reward points.</p>
+        </div>
+        <div class="stub-points">
+          <div class="num mono" id="stubPoints">0</div>
+          <div class="lbl">total points on this phone number</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rewards">
+  <div class="wrap">
+    <h2>Earn points every time you book</h2>
+    <p style="max-width:540px; color:#5a5247;">Every callout moves your needle. Share your exact location and you move it faster — it's the detail that gets us to your door quicker.</p>
+    <div class="rewards-grid">
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 200 120" width="100%" style="max-width:260px;">
+          <path d="M20,100 A80,80 0 0 1 180,100" fill="none" stroke="#e3d8bd" stroke-width="10" stroke-linecap="round"/>
+          <line x1="20" y1="100" x2="28" y2="92" stroke="#8B97A3" stroke-width="2"/>
+          <line x1="60" y1="30.7" x2="65" y2="38" stroke="#8B97A3" stroke-width="2"/>
+          <line x1="169.3" y1="60" x2="162" y2="64" stroke="#8B97A3" stroke-width="2"/>
+          <line x1="180" y1="100" x2="172" y2="92" stroke="#8B97A3" stroke-width="2"/>
+          <g id="needle" style="transform-origin:100px 100px; transform:rotate(-90deg); transition:transform .6s ease;">
+            <line x1="100" y1="100" x2="100" y2="28" stroke="#C2592F" stroke-width="4" stroke-linecap="round"/>
+          </g>
+          <circle cx="100" cy="100" r="7" fill="#14233D"/>
+          <text x="20" y="115" font-size="9" fill="#5a5247" font-family="IBM Plex Mono">0</text>
+          <text x="158" y="115" font-size="9" fill="#5a5247" font-family="IBM Plex Mono">60+</text>
+        </svg>
+        <div id="tierNameOut" style="font-family:'Space Grotesk'; font-weight:700; font-size:1.2rem; margin-top:6px;">Copper</div>
+        <div id="tierPointsOut" style="font-size:.85rem; color:#5a5247;">0 points</div>
+      </div>
+      <div class="tier-list">
+        <div class="tier-row">
+          <div class="tier-dot" style="background:var(--copper);"></div>
+          <div><h4>Copper — 0 to 19 points</h4><p>Every customer starts here after their first booking.</p></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-dot" style="background:var(--steel);"></div>
+          <div><h4>Galvanized Steel — 20 to 49 points</h4><p>Regulars who keep their pipes in our hands.</p></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-dot" style="background:var(--brass);"></div>
+          <div><h4>Brass — 50+ points</h4><p>Our most trusted households — first in line for callouts.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>Andi &amp; Tambani Plumbing</h4>
+      <div class="num">076 996 9213</div>
+      <div class="num">072 537 1112</div>
+      <button class="owner-link" id="ownerLink">Plumber login →</button>
+    </div>
+    <div>
+      <h4>Find us</h4>
+      <div>Vhulaudzi Murunwa CC</div>
+      <div>33 Mathede Street</div>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="dashOverlay">
+  <div class="dash-card">
+    <div class="dash-head">
+      <div>
+        <h3 style="margin-bottom:0;">Job requests</h3>
+        <p style="margin:4px 0 0; font-size:.85rem; color:#5a5247;">Everything sent through the website lands here too.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="dash-refresh" id="dashRefresh">Refresh</button>
+        <button class="dash-close" id="dashClose">Close</button>
+      </div>
+    </div>
+    <div id="jobList"></div>
+  </div>
+</div>
+
+<script>
+  const WORK_TYPES = [
+    {code:'RES', label:'Residential plumbing services'},
+    {code:'INST', label:'Installation and upgrades'},
+    {code:'WTR', label:'Water installation / repairs'},
+    {code:'TANKC', label:'Tank cleaning'},
+    {code:'DRAIN', label:'Clogged / blocked drains'},
+    {code:'RENO', label:'Renovation'},
+    {code:'TANKCON', label:'Tank connection'},
+    {code:'REFURB', label:'Refurbishment / new homes'},
+    {code:'COMM', label:'Commercial services'},
+    {code:'MAINT', label:'Maintenance and cleaning'},
+    {code:'DIAG', label:'Diagnosis and checkups'},
+    {code:'SEWER', label:'Sewage backups'},
+    {code:'OTHER', label:'Something else'}
+  ];
+  const OWNER_WHATSAPP = '27769969213';
+  const OWNER_PIN = '2026';
+
+  const tagGrid = document.getElementById('tagGrid');
+  const workSelect = document.getElementById('workType');
+  WORK_TYPES.forEach(w=>{
+    tagGrid.insertAdjacentHTML('beforeend', `<div class="tag"><span class="code mono">${w.code}</span>${w.label}</div>`);
+    const opt = document.createElement('option');
+    opt.value = w.code; opt.textContent = w.label;
+    workSelect.appendChild(opt);
+  });
+
+  let geo = null; // {lat, lng}
+  const locStatus = document.getElementById('locStatus');
+  document.getElementById('shareLocBtn').addEventListener('click', ()=>{
+    if(!navigator.geolocation){
+      locStatus.textContent = "Location sharing isn't available here — your typed address is enough.";
+      return;
+    }
+    locStatus.textContent = 'Getting your location…';
+    navigator.geolocation.getCurrentPosition(
+      pos=>{
+        geo = {lat:pos.coords.latitude.toFixed(5), lng:pos.coords.longitude.toFixed(5)};
+        locStatus.textContent = `Location shared ✓ (${geo.lat}, ${geo.lng}) — this earns you bonus points.`;
+      },
+      ()=>{
+        locStatus.textContent = "Couldn't get your location — no problem, we'll use the address you typed.";
+      },
+      {enableHighAccuracy:true, timeout:8000}
+    );
+  });
+
+  function normalizePhone(raw){
+    return raw.replace(/\s|-/g,'');
+  }
+  function phoneKey(raw){
+    return normalizePhone(raw).replace(/^\+?27/,'0');
+  }
+  function tierFor(points){
+    if(points>=50) return {name:'Brass', cssVar:'--brass', min:50};
+    if(points>=20) return {name:'Galvanized Steel', cssVar:'--steel', min:20};
+    return {name:'Copper', cssVar:'--copper', min:0};
+  }
+  function setGauge(points){
+    const pct = Math.min(points,60)/60;
+    const currentAngle = 180 - pct*180;
+    const rotation = 90 - currentAngle;
+    document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
+    const t = tierFor(points);
+    document.getElementById('tierNameOut').textContent = t.name;
+    document.getElementById('tierPointsOut').textContent = points + ' points';
+    document.getElementById('stubPoints').textContent = points;
+  }
+
+  async function getRequests(){
+    try{
+      const r = await window.storage.get('requests', true);
+      return r ? JSON.parse(r.value) : [];
+    }catch(e){ return []; }
+  }
+  async function saveRequests(list){
+    try{ await window.storage.set('requests', JSON.stringify(list), true); }catch(e){ console.error(e); }
+  }
+  async function getCustomer(key){
+    try{
+      const r = await window.storage.get('customer:'+key, true);
+      return r ? JSON.parse(r.value) : null;
+    }catch(e){ return null; }
+  }
+  async function saveCustomer(key, data){
+    try{ await window.storage.set('customer:'+key, JSON.stringify(data), true); }catch(e){ console.error(e); }
+  }
+
+  function updateStubCode(){
+    const code = workSelect.value || '—';
+    document.getElementById('stubCode').textContent = 'JOB CODE: ' + code;
+  }
+  workSelect.addEventListener('change', updateStubCode);
+  updateStubCode();
+
+  document.getElementById('jobForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const workCode = workSelect.value;
+    const workLabel = WORK_TYPES.find(w=>w.code===workCode)?.label || workCode;
+    const desc = document.getElementById('jobDesc').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const errEl = document.getElementById('formError');
+
+    if(!name || !phone || !workCode || !desc || !address){
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const requests = await getRequests();
+    const today = new Date();
+    const ymd = today.toISOString().slice(2,10).replace(/-/g,'');
+    const reqId = 'AT-' + ymd + '-' + String(requests.length+1).padStart(3,'0');
+
+    const key = phoneKey(phone);
+    let customer = await getCustomer(key);
+    const isFirstTime = !customer;
+    let earned = isFirstTime ? 15 : 10;
+    if(geo) earned += 5;
+    if(!customer) customer = {phone, name, points:0, visits:0};
+    customer.points += earned;
+    customer.visits += 1;
+    customer.name = name;
+    await saveCustomer(key, customer);
+
+    const record = {
+      id:reqId, name, phone, workCode, workLabel, desc, address,
+      lat: geo? geo.lat : null, lng: geo? geo.lng : null,
+      status:'New', timestamp: today.toISOString(), pointsEarned: earned
+    };
+    requests.push(record);
+    await saveRequests(requests);
+
+    setGauge(customer.points);
+
+    const mapLink = geo
+      ? `https://maps.google.com/?q=${geo.lat},${geo.lng}`
+      : `https://maps.google.com/?q=${encodeURIComponent(address)}`;
+    const msgLines = [
+      `New job request ${reqId}`,
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Work needed: ${workLabel} (${workCode})`,
+      `Details: ${desc}`,
+      `Address: ${address}`,
+      `Map: ${mapLink}`,
+      `— sent via the Andi & Tambani website`
+    ];
+    const waUrl = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(msgLines.join('\n'))}`;
+    document.getElementById('waFallback').href = waUrl;
+    window.open(waUrl, '_blank');
+
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+    document.getElementById('reqIdOut').textContent = reqId;
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    document.getElementById('jobForm').reset();
+    geo = null;
+    locStatus.textContent = '';
+    updateStubCode();
+    document.getElementById('successView').style.display = 'none';
+    document.getElementById('formView').style.display = 'block';
+  });
+
+  setGauge(0);
+
+  /* ---------- Owner dashboard ---------- */
+  const overlay = document.getElementById('dashOverlay');
+  document.getElementById('ownerLink').addEventListener('click', ()=>{
+    const pin = prompt('Enter plumber PIN:');
+    if(pin === OWNER_PIN){
+      overlay.style.display = 'block';
+      renderDashboard();
+    } else if(pin !== null){
+      alert('Wrong PIN.');
+    }
+  });
+  document.getElementById('dashClose').addEventListener('click', ()=> overlay.style.display='none');
+  document.getElementById('dashRefresh').addEventListener('click', renderDashboard);
+
+  async function renderDashboard(){
+    const listEl = document.getElementById('jobList');
+    listEl.innerHTML = '<p class="empty-state">Loading…</p>';
+    const requests = await getRequests();
+    if(requests.length===0){
+      listEl.innerHTML = '<p class="empty-state">No requests yet. They\'ll show up here as soon as someone books online.</p>';
+      return;
+    }
+    listEl.innerHTML = '';
+    requests.slice().reverse().forEach((r)=>{
+      const realIndex = requests.indexOf(r);
+      const mapLink = r.lat ? `https://maps.google.com/?q=${r.lat},${r.lng}` : `https://maps.google.com/?q=${encodeURIComponent(r.address)}`;
+      const pillClass = r.status==='Done' ? 'pill-done' : (r.status==='On the way' ? 'pill-progress' : 'pill-new');
+      const row = document.createElement('div');
+      row.className = 'job-row';
+      row.innerHTML = `
+        <div>
+          <strong>${r.name}</strong> · <span class="mono">${r.id}</span>
+          <span class="status-pill ${pillClass}">${r.status}</span>
+          <div class="meta">${r.workLabel} (${r.workCode})</div>
+          <div class="meta">${r.desc}</div>
+          <div class="meta">${r.address} · <a href="${mapLink}" target="_blank" style="color:var(--copper);">Open in Maps</a></div>
+          <div class="meta">Phone: ${r.phone} · ${new Date(r.timestamp).toLocaleString()}</div>
+        </div>
+        <div>
+          <select data-idx="${realIndex}">
+            <option ${r.status==='New'?'selected':''}>New</option>
+            <option ${r.status==='On the way'?'selected':''}>On the way</option>
+            <option ${r.status==='Done'?'selected':''}>Done</option>
+          </select>
+        </div>
+      `;
+      listEl.appendChild(row);
+    });
+    listEl.querySelectorAll('select').forEach(sel=>{
+      sel.addEventListener('change', async (e)=>{
+        const idx = parseInt(e.target.dataset.idx,10);
+        const list = await getRequests();
+        list[idx].status = e.target.value;
+        await saveRequests(list);
+        renderDashboard();
+      });
+    });
+  }
+</script>
+</body>
+</html>
